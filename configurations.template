@@ -1,0 +1,9 @@
+########## Configurations to be completed ##########
+
+# networking configurations
+default_http_proxy=
+default_https_proxy=
+default_no_proxy="localhost,127.0.0.1"
+
+# ssh_agent configurations
+default_ssh_dir="$HOME/.ssh"
