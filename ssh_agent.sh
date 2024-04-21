@@ -1,5 +1,3 @@
-source ssh_agent_cfgs
-
 eval "$(ssh-agent -s)"
 
 # shellcheck disable=SC2154
