@@ -6,4 +6,5 @@ default_https_proxy=
 default_no_proxy="localhost,127.0.0.1"
 
 # ssh_agent configurations
+enabled_ssh_agent=true
 default_ssh_dir="$HOME/.ssh"

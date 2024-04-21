@@ -1,6 +1,9 @@
-eval "$(ssh-agent -s)"
-
 # shellcheck disable=SC2154
+if [[ "$enabled_ssh_agent" != true ]]; then
+    return 0
+fi
+
+eval "$(ssh-agent -s)"
 while read -r -d '' file; do
     if grep -q "PRIVATE KEY" "$file"; then
         ssh-add "$file"
