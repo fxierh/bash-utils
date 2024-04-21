@@ -1,0 +1,34 @@
+.TH FLAT 1 "2024-04-21" "macOS X.Y" "General Commands Manual"
+
+.SH NAME
+flat \- flatten input text by replacing sequences of whitespace with a single space
+
+.SH SYNOPSIS
+.B flat
+[string]
+
+.SH DESCRIPTION
+The \fBflat\fR function processes the provided input text, either as an argument or from standard input,
+and outputs a version where all sequences of one or more whitespace characters are replaced with a single space.
+This utility is useful for text normalization in scripting and data processing.
+
+.SH EXAMPLES
+.PP
+To flatten a multiline text from a pipe:
+.RS
+.nf
+echo "foo
+bar" | flat
+.fi
+.RE
+.PP
+To flatten a multiline text passed as an argument:
+.RS
+.nf
+flat "foo
+bar"
+.fi
+.RE
+
+.SH AUTHOR
+Feilian Xie <feilian1000@gmail.com>

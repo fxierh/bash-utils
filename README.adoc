@@ -1,0 +1,24 @@
+== bash-utils
+
+=== Prerequisites
+To ensure the utilities are properly set up whenever a login shell starts, add the following configurations to your *.bash_profile*:
+[source,bash]
+----
+# Make the custom man pages discoverable
+PATH="/path/to/bash-utils:$PATH"
+
+# Source the utilities
+while IFS= read -r -d '' file; do
+    source "$file"
+done < <(find /path/to/bash-utils -name '*.sh' -print0)
+----
+
+=== Display the manual for a utility
+To view the manual page for a specific utility, use the *man* command followed by the name of the utility:
+[source,bash]
+----
+man util-name
+----
+
+=== List all available utilities
+TODO
