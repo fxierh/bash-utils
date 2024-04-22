@@ -1,0 +1,50 @@
+.TH FSSH 1 "2024-04-23" "macOS X.Y" "General Commands Manual"
+
+.SH NAME
+fssh \- SSH wrapper that removes the remote host entry from known_hosts before connecting
+
+.SH SYNOPSIS
+.B fssh
+[ssh options] user@hostname [command]
+
+.SH DESCRIPTION
+The \fBfssh\fR function is a wrapper around the standard \fBssh\fR command that adds
+a preprocessing step to remove the specified host from the \fB~/.ssh/known_hosts\fR file.
+This is particularly useful in environments where hosts frequently change their keys
+(e.g., in dynamic cloud environments or when connecting to devices that may be reset to factory settings).
+It supports all standard \fBssh\fR syntax, including passing options and executing remote commands.
+
+.SH OPTIONS
+\fBfssh\fR accepts the same options as \fBssh\fR.
+For a complete list of options, refer to the \fBssh\fR manual page (\fBman ssh\fR).
+
+.SH EXAMPLES
+.PP
+To connect to a remote host named "example.com" and automatically remove its entry from known_hosts beforehand:
+.RS
+.nf
+fssh user@example.com
+.fi
+.RE
+.PP
+To connect using a specific identity file, removing the host from known_hosts:
+.RS
+.nf
+fssh -i /path/to/id_rsa user@example.com
+.fi
+.RE
+.PP
+To execute a command on a remote machine, cleaning the known_hosts entry first:
+.RS
+.nf
+fssh user@example.com "ls -lah"
+.fi
+.RE
+
+.SH "SEE ALSO"
+.BR ssh (1),
+.BR ssh-keygen (1)
+
+.SH AUTHORS
+Fan Fan <fine.fan@hotmail.com>,
+Feilian Xie <feilian1000@gmail.com>
