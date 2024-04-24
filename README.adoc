@@ -33,6 +33,7 @@ while IFS= read -r -d '' file; do
     source "$file"
 done < <(find "$BASH_UTILS_DIR" -name '*.sh' -print0)
 ----
+Then either open a new terminal window or source the updated .bash_profile.
 Remember to replace `/path/to/bash-utils` with the actual path of your cloned repo.
 
 === Display the manual for a utility
