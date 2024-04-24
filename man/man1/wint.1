@@ -1,0 +1,37 @@
+.TH WINT 1 "2024-04-25" "macOS X.Y" "General Commands Manual"
+
+.SH NAME
+wint \- sets the terminal window's title
+
+.SH SYNOPSIS
+.B wint
+[title]
+
+.SH DESCRIPTION
+The \fBwint\fR function sets the terminal window's title using ANSI escape sequences.
+It is designed to work in terminal emulators that support these sequences, such as xterm and similar.
+The title is set to the string passed as the first argument to the function.
+If no argument is provided, the title is cleared.
+This function is useful for dynamically changing the window title during a terminal session to reflect the current state or task.
+
+.SH USAGE
+.PP
+To set the terminal window's title to "My Project":
+.RS
+.nf
+wint "My Project"
+.fi
+.RE
+.PP
+If called without any arguments, the window's title is cleared:
+.RS
+.nf
+wint
+.fi
+.RE
+
+.SH "SEE ALSO"
+.BR printf (1)
+
+.SH AUTHORS
+Feilian Xie <feilian1000@gmail.com>
