@@ -1,0 +1,37 @@
+.TH HLE 1 "2024-04-25" "macOS X.Y" "General Commands Manual"
+
+.SH NAME
+hle \- Echoes text with high visibility using ANSI colors if available
+
+.SH SYNOPSIS
+.B hle
+[echo options]
+
+.SH DESCRIPTION
+The \fBhle\fR function is designed to enhance the visibility of text output in the terminal by setting the
+foreground color to yellow if the terminal supports ANSI colors and at least 8 different colors are available.
+If the terminal does not support these features, \fBhle\fR falls back to plain text output.
+This function is particularly useful in scripts where certain messages need to stand out for debugging or user guidance.
+
+.SH EXAMPLES
+.PP
+To simply display "Hello, World!" in high visibility (yellow) if supported:
+.RS
+.nf
+hle "Hello, World!"
+.fi
+.RE
+.PP
+To display a list of files in the current directory in high visibility:
+.RS
+.nf
+hle $(ls)
+.fi
+.RE
+
+.SH "SEE ALSO"
+.BR echo (1),
+.BR tput (1)
+
+.SH AUTHORS
+Feilian Xie <feilian1000@gmail.com>
