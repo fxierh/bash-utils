@@ -7,3 +7,11 @@ default_no_proxy="localhost,127.0.0.1"
 
 # ssh_agent configurations
 default_ssh_dir="$HOME/.ssh"
+
+# openshift configurations
+default_flexy_kubeconfig_url=
+default_ext_cluster_exp_api=
+default_target_kubeconfig_dir="$HOME"
+default_kubeconfig_download_dir="$HOME/Downloads"
+default_jenkins_uname=
+default_jenkins_token=

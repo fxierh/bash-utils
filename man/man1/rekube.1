@@ -1,0 +1,56 @@
+.TH REKUBE 1 "2024-04-27" "macOS X.Y" "General Commands Manual"
+
+.SH NAME
+rekube \- manages kubeconfig for Kubernetes clusters and optionally extends their lifetime
+
+.SH SYNOPSIS
+.B rekube
+[\-e] [job_id]
+
+.SH DESCRIPTION
+The \fBrekube\fR function is a shell utility designed to manage Kubernetes configurations (kubeconfig)
+and optionally extend the lifetime of the clusters managed by these configurations.
+It can download a kubeconfig file associated with a given job ID, optionally extend the cluster's expiration,
+and update the local kubeconfig environment.
+
+.SH OPTIONS
+.TP
+.B \-e
+Extend the lifetime of the cluster associated with the provided job ID by calling an external Jenkins API.
+
+.SH USAGE
+.PP
+To download a kubeconfig for a job and set it as the current kubeconfig:
+.RS
+.nf
+rekube 12345
+.fi
+.RE
+.PP
+To extend the lifetime of the cluster associated with a job ID and download its kubeconfig:
+.RS
+.nf
+rekube \-e 12345
+.fi
+.RE
+.PP
+If called without a job ID, it attempts to move an existing kubeconfig from the default download directory to the specified target path:
+.RS
+.nf
+rekube
+.fi
+.RE
+
+.SH ENVIRONMENT
+.TP
+.B KUBECONFIG
+Set to the path of the downloaded or moved kubeconfig file after successful execution.
+
+.SH "SEE ALSO"
+.BR kget (1),
+.BR extexp (1),
+.BR mv (1),
+.BR oc (1)
+
+.SH AUTHORS
+Keenon Lee <jitli@redhat.com>
