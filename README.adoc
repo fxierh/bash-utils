@@ -2,39 +2,18 @@
 
 == Prerequisites
 
-=== Customize Configurations
-
-First, copy the template configurations file and then customize it according to your needs.
-[source,bash]
-----
-cp configurations.template configurations
-nano configurations
-----
-Note that some utilities may not function correctly if the necessary variables are left unset within the configurations file.
-
 === Set Up Your Environment
 
-To ensure the utilities are properly set up whenever a login shell starts,
-add the following configurations to your `.bash_profile`:
+To ensure that the utilities are properly configured, use the default make target.
+This automatically creates a starter configuration file and adds the necessary bootstrapping logic to `.bash_profile`:
 [source,bash]
 ----
-# Define the path to your bash-utils directory
-# Ensure to replace "/path/to/bash-utils" with the actual path where you've cloned the repo
-BASH_UTILS_DIR="/path/to/bash-utils"
-
-# Make the custom man pages discoverable
-PATH="$BASH_UTILS_DIR:$PATH"
-
-# Apply the configurations
-source "$BASH_UTILS_DIR/configurations"
-
-# Source all utilities scripts
-while IFS= read -r -d '' file; do
-    source "$file"
-done < <(find "$BASH_UTILS_DIR" -name '*.sh' -print0)
+make
 ----
-Then either open a new terminal window or source the updated .bash_profile.
-Remember to replace `/path/to/bash-utils` with the actual path of your cloned repo.
+If prompted, customize the starter configuration file.
+Some utilities may not function correctly if the necessary variables are left unset within this file.
+
+After that, either open a new terminal window or source the updated `.bash_profile`.
 
 === Display the manual for a utility
 To view the manual page for a specific utility, use the `man` command followed by the name of the utility:
