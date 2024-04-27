@@ -1,0 +1,42 @@
+.TH REPATH 1 "2024-04-28" "macOS X.Y" "General Commands Manual"
+
+.SH NAME
+repath \- restores the system PATH for login and non-login shells
+
+.SH SYNOPSIS
+.B repath
+[\-n]
+
+.SH DESCRIPTION
+The \fBrepath\fR function is a shell utility designed to restore the system \fIPATH\fR variable
+to its original state as defined in the system and user profile files.
+It determines whether to restore the PATH as per login or non-login shell initializations based on an option.
+
+.SH OPTIONS
+.TP
+.B \-n
+Restores the PATH according to non-login shell initialization, typically using \fI~/.bashrc\fR.
+If not specified, the PATH is restored based on login shell initialization using \fI/etc/profile\fR
+and the first available user profile among \fI~/.bash_profile\fR, \fI~/.bash_login\fR, and \fI~/.profile\fR.
+
+.SH USAGE
+.PP
+To restore the PATH for a login shell (default):
+.RS
+.nf
+repath
+.fi
+.RE
+.PP
+To restore the PATH for a non-login shell:
+.RS
+.nf
+repath \-n
+.fi
+.RE
+
+.SH "SEE ALSO"
+.BR bash (1),
+
+.SH AUTHORS
+Feilian Xie <feilian1000@gmail.com>
