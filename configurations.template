@@ -10,6 +10,7 @@ default_ssh_dir="$HOME/.ssh"
 
 # openshift configurations
 default_flexy_kubeconfig_url=
+default_flexy_destroy_api=
 default_ext_cluster_exp_api=
 default_target_kubeconfig_dir="$HOME"
 default_kubeconfig_download_dir="$HOME/Downloads"

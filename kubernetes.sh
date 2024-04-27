@@ -1,4 +1,5 @@
 # shellcheck disable=SC2154
+
 function extexp() {
     local job_id="$1"
     if [ -z "$job_id" ]; then
@@ -75,4 +76,21 @@ function rekube() {
     echo "Rekubed to $target_kubeconfig_path !"
     export KUBECONFIG="$target_kubeconfig_path"
     oc version
+}
+
+function fdestroy() {
+    local job_id="$1"
+    if [ -z "$job_id" ]; then
+        echo "No flexy-install ID provided. Exiting."
+        return 1
+    fi
+
+    # Invoke flexy-destroy by calling Jenkins API
+    if ! curl --insecure --silent "$default_flexy_destroy_api" \
+        --user "$default_jenkins_uname:$default_jenkins_token" \
+        --data "BUILD_NUMBER=$job_id"; then
+        echo "Failed to invoke flexy-destroy."
+        return 1
+    fi
+    echo "flexy-destroy invoked successfully."
 }
