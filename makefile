@@ -4,7 +4,7 @@ CONFIG_TEMPLATE_NAME := configurations.template
 PROJECT_NAME := bash-utils
 PROFILE_PATH := $(HOME)/.bash_profile
 
-SHELL := /bin/bash
+SHELL := /usr/bin/env bash
 
 .PHONY: all
 all: ensure-configuration ensure-profile
