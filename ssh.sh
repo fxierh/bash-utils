@@ -1,4 +1,5 @@
 # shellcheck disable=SC2154
+
 function ssh_agent_init() {
     eval "$(ssh-agent -s)"
     while read -r -d '' file; do
