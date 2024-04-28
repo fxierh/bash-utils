@@ -1,0 +1,42 @@
+.TH PLACEHOLDER 1 "2024-04-29" "Bash Utilities" "General Commands Manual"
+
+.SH NAME
+placeholder \- generates a placeholder name from a predefined list
+
+.SH SYNOPSIS
+.B placeholder
+[\fIindex\fR]
+
+.SH DESCRIPTION
+The \fBplaceholder\fR function outputs a placeholder name from a set list.
+This list includes names commonly used in programming and documentation to represent abstract concepts or temporary values.
+The names in the list are: foo, bar, baz, qux, quux, corge, grault, garply, waldo, fred, plugh, xyzzy, and thud.
+.PP
+The function calculates the position of the name to return by taking an optional numeric argument, \fIindex\fR,
+modulo the number of names in the list. If no \fIindex\fR is provided, it defaults to 0.
+
+.SH USAGE
+.PP
+To retrieve the first placeholder name in the list:
+.RS
+.nf
+placeholder
+.fi
+.RE
+.PP
+To retrieve the fifth placeholder name:
+.RS
+.nf
+placeholder 4
+.fi
+.RE
+.PP
+Example of storing a returned placeholder name in a variable:
+.RS
+.nf
+my_var=$(placeholder 3)
+.fi
+.RE
+
+.SH AUTHORS
+Feilian Xie <feilian1000@gmail.com>
