@@ -19,20 +19,20 @@ function extexp() {
 }
 
 function kget() {
-    local job_id="$1"
+    local kubeconfig_url="$1"
     local target_kubeconfig_path="$2"
-    if [ -z "$job_id" ]; then
-        echo "No flexy-install ID provided. Exiting."
+    if [ -z "$kubeconfig_url" ]; then
+        hle "No flexy-install ID provided. Exiting."
         return 1
     fi
     if [ -z "$target_kubeconfig_path" ]; then
-        echo "No target kubeconfig path provided. Exiting."
+        hle "No target kubeconfig path provided. Exiting."
         return 1
     fi
 
     # Download kubeconfig
-    if ! wget --quiet --output-document "$target_kubeconfig_path" "${default_flexy_kubeconfig_url/JOBID/$job_id}"; then
-        echo "Failed to download kubeconfig."
+    if ! wget --quiet --output-document "$target_kubeconfig_path" "$kubeconfig_url"; then
+        hle "Failed to download kubeconfig from $kubeconfig_url."
         return 1
     fi
     echo "Kubeconfig downloaded successfully."
@@ -42,14 +42,19 @@ function rekube() {
     local opt
     local job_id
     local extend_lifetime
+    local is_hcp
     local target_kubeconfig_path="$default_target_kubeconfig_dir/kubeconfig"
+    local target_hcp_kubeconfig_path="$default_target_kubeconfig_dir/hcp.kubeconfig"
 
     # Parse options
     local OPTIND
-    while getopts "e" opt; do
+    while getopts "eh" opt; do
         case $opt in
         e)
             extend_lifetime=true
+            ;;
+        h)
+            is_hcp=true
             ;;
         \?)
             return 1
@@ -64,8 +69,13 @@ function rekube() {
         # No job ID provided; move the kubeconfig from the download directory to the target directory.
         mv "$default_kubeconfig_download_dir"/kubeconfig "$target_kubeconfig_path" || return 1
     else
-        # Job ID provided; download the kubeconfig file from the specified Jenkins job using the given job ID.
-        kget "$job_id" "$target_kubeconfig_path" || return 1
+        # Download kubeconfig
+        kget "${default_flexy_kubeconfig_url//JOBID/$job_id}" "$target_kubeconfig_path" || return 1
+
+        # Download the hosted cluster's kubeconfig if requested
+        if [[ "$is_hcp" = true ]]; then
+            kget "${default_flexy_hcp_kubeconfig_url//JOBID/$job_id}" "$target_hcp_kubeconfig_path"
+        fi
 
         # Extend cluster expiration if requested
         if [[ "$extend_lifetime" = true ]]; then
@@ -93,4 +103,8 @@ function fdestroy() {
         return 1
     fi
     echo "flexy-destroy invoked successfully."
+}
+
+function hcp() {
+    KUBECONFIG="$default_target_kubeconfig_dir/hcp.kubeconfig" "$@"
 }
