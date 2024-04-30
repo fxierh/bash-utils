@@ -1,12 +1,14 @@
 function flat() {
-    commands=':a
-N
-$!ba
-s/[[:space:]]+/ /g'
+    local input
 
+    # Get input
     if (( "$#" == 1 )); then
-        echo -e "$1" | sed -E "$commands"
+        input="$1"
     else
-        sed -E "$commands"
+        input="$(cat)"
     fi
+
+    # Set the record separator to one or more empty lines surrounded by other whitespace,
+    # effectively treating paragraphs or separated blocks as single records.
+    awk -v RS='([[:blank:]]*\n){2,}[[:blank:]]*' '$1=$1' <<< "$input"
 }
