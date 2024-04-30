@@ -3,7 +3,7 @@
 function extexp() {
     local job_id="$1"
     if [ -z "$job_id" ]; then
-        echo "No flexy-install ID provided. Exiting."
+        err "No flexy-install ID provided. Exiting."
         return 1
     fi
 
@@ -12,30 +12,30 @@ function extexp() {
         --user "$default_jenkins_uname:$default_jenkins_token" \
         --data "FLEXY_INSTALL_ID=$job_id" \
         --data "EXPIRES_IN_HOURS=35"; then
-        echo "Failed to extend cluster expiration."
+        err "Failed to extend cluster expiration."
         return 1
     fi
-    echo "Cluster expiration extended successfully."
+    succ "Cluster expiration extended successfully."
 }
 
 function kget() {
     local kubeconfig_url="$1"
     local target_kubeconfig_path="$2"
     if [ -z "$kubeconfig_url" ]; then
-        hle "No flexy-install ID provided. Exiting."
+        err "No flexy-install ID provided. Exiting."
         return 1
     fi
     if [ -z "$target_kubeconfig_path" ]; then
-        hle "No target kubeconfig path provided. Exiting."
+        err "No target kubeconfig path provided. Exiting."
         return 1
     fi
 
     # Download kubeconfig
     if ! wget --quiet --output-document "$target_kubeconfig_path" "$kubeconfig_url"; then
-        hle "Failed to download kubeconfig from $kubeconfig_url."
+        err "Failed to download kubeconfig from $kubeconfig_url."
         return 1
     fi
-    echo "Kubeconfig downloaded successfully."
+    succ "Kubeconfig downloaded successfully."
 }
 
 function rekube() {
@@ -74,7 +74,7 @@ function rekube() {
 
         # Download the hosted cluster's kubeconfig if requested
         if [[ "$is_hcp" = true ]]; then
-            kget "${default_flexy_hcp_kubeconfig_url//JOBID/$job_id}" "$target_hcp_kubeconfig_path"
+            kget "${default_flexy_hcp_kubeconfig_url//JOBID/$job_id}" "$target_hcp_kubeconfig_path" || return 1
         fi
 
         # Extend cluster expiration if requested
@@ -83,7 +83,7 @@ function rekube() {
         fi
     fi
 
-    echo "Rekubed to $target_kubeconfig_path !"
+    succ "Rekubed to $target_kubeconfig_path !"
     export KUBECONFIG="$target_kubeconfig_path"
     oc version
 }
@@ -109,7 +109,7 @@ function fdestroy() {
     # Parse positional arguments
     local job_id="$1"
     if [ -z "$job_id" ]; then
-        echo "No flexy-install ID provided. Exiting."
+        err "No flexy-install ID provided. Exiting."
         return 1
     fi
 
@@ -123,10 +123,10 @@ function fdestroy() {
     if ! curl --insecure --silent "$jenkins_endpoint" \
         --user "$default_jenkins_uname:$default_jenkins_token" \
         --data "BUILD_NUMBER=$job_id"; then
-        echo "Failed to invoke flexy-destroy."
+        err "Failed to invoke flexy-destroy."
         return 1
     fi
-    echo "flexy-destroy invoked successfully."
+    succ "flexy-destroy invoked successfully."
 }
 
 function hcp() {
