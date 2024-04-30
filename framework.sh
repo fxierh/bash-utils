@@ -2,10 +2,26 @@
 # shellcheck disable=SC2034
 
 function hle() {
-    # Check if tput is available and supports at least 8 colors
-    if command -v tput >/dev/null && [[ $(tput colors) -ge 8 ]]; then
-        # Set the text color to yellow
-        tput setaf 3
+    local color
+
+    # Parse options
+    local OPTIND
+    while getopts "c:" opt; do
+        case $opt in
+        c)
+            color="$OPTARG"
+            ;;
+        \?)
+            return 1
+            ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    # Check if a color is specified and that the terminal supports coloring.
+    if [[ -n "$color" ]] && command -v tput >/dev/null && [[ $(tput colors) -ge 8 ]]; then
+        # Set the text color
+        tput setaf "$color"
         echo "$@"
         # reset text formatting
         tput sgr0
@@ -14,6 +30,18 @@ function hle() {
 
     # Fallback to plain echo if conditions are not met
     echo "$@"
+}
+
+function err() {
+    hle -c 1 "$@"
+}
+
+function warn() {
+    hle -c 3 "$@"
+}
+
+function succ() {
+    hle -c 2 "$@"
 }
 
 # https://en.wikipedia.org/wiki/ANSI_escape_code#OSC
