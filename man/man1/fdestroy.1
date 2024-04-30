@@ -1,0 +1,53 @@
+.TH FDESTROY 1 "2024-05-01" "macOS X.Y" "General Commands Manual"
+
+.SH NAME
+fdestroy \- triggers Flexy-destroy through Jenkins API
+
+.SH SYNOPSIS
+.B fdestroy
+[\-d delay_secs] [job_id]
+
+.SH DESCRIPTION
+The \fBfdestroy\fR function is a shell utility designed to trigger Flexy-destroy through Jenkins API.
+This utility allows specifying a delay before the job is executed.
+
+.SH OPTIONS
+.TP
+.B \-d delay_secs
+Specify a delay in seconds before the Jenkins job is triggered.
+This delay is appended as a query parameter in the Jenkins job call.
+
+.SH USAGE
+.PP
+To trigger the destruction of a Flexy environment immediately:
+.RS
+.nf
+fdestroy 12345
+.fi
+.RE
+.PP
+To schedule the destruction of a Flexy environment with a delay:
+.RS
+.nf
+fdestroy \-d 300 12345
+.fi
+.RE
+
+.SH ENVIRONMENT
+.TP
+.B default_flexy_destroy_api
+Should be set to the base URL of the Jenkins job that triggers the destruction.
+
+.TP
+.B default_jenkins_uname
+The username used for authentication with the Jenkins server.
+
+.TP
+.B default_jenkins_token
+The API token or password used for authentication with the Jenkins server.
+
+.SH "SEE ALSO"
+.BR curl (1)
+
+.SH AUTHORS
+Feilian Xie <feilian1000@gmail.com>

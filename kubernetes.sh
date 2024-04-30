@@ -89,14 +89,38 @@ function rekube() {
 }
 
 function fdestroy() {
+    local delay_secs
+    local jenkins_endpoint
+
+    # Parse options
+    local OPTIND
+    while getopts "d:" opt; do
+        case $opt in
+        d)
+            delay_secs="$OPTARG"
+            ;;
+        \?)
+            return 1
+            ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    # Parse positional arguments
     local job_id="$1"
     if [ -z "$job_id" ]; then
         echo "No flexy-install ID provided. Exiting."
         return 1
     fi
 
+    # Configure the Jenkins endpoint. Append the delay query parameter if specified.
+    jenkins_endpoint="$default_flexy_destroy_api"
+    if [[ -n "$delay_secs" ]]; then
+        jenkins_endpoint="${jenkins_endpoint}/?delay=${delay_secs}sec"
+    fi
+
     # Invoke flexy-destroy by calling Jenkins API
-    if ! curl --insecure --silent "$default_flexy_destroy_api" \
+    if ! curl --insecure --silent "$jenkins_endpoint" \
         --user "$default_jenkins_uname:$default_jenkins_token" \
         --data "BUILD_NUMBER=$job_id"; then
         echo "Failed to invoke flexy-destroy."
