@@ -28,6 +28,10 @@ add-to-profile:
 	echo 'source "$(CURDIR)/bootstrap.sh"' >> "$(PROFILE_PATH)"
 	echo >> "$(PROFILE_PATH)"
 
+# TODO
 .PHONY: remove-from-profile
 remove-from-profile:
-	# TODO
+
+.PHONY: list-utils
+list-utils:
+	@./hack/list-utils.sh $(CURDIR)
