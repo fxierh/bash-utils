@@ -14,7 +14,7 @@ source "$project_dir/framework.sh"
 # Source all other utility scripts
 while IFS= read -r -d '' file; do
     source "$file"
-done < <(find "$project_dir" -name '*.sh' ! -name 'bootstrap.sh' ! -name 'framework.sh' -print0)
+done < <(find "$project_dir" -depth 1 -name '*.sh' ! -name 'bootstrap.sh' ! -name 'framework.sh' -print0)
 
 # Make the custom man pages discoverable
 export PATH="$project_dir:$PATH"
