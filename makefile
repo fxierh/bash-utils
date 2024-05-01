@@ -17,6 +17,10 @@ ensure-configuration:
 		echo "You can now customize $(CONFIG_FILE_NAME)"; \
 	fi
 
+# TODO
+.PHONY: update-configuration
+update-configuration:
+
 .PHONY: ensure-profile
 ensure-profile:
 	@grep "$(PROJECT_NAME)" "$(PROFILE_PATH)" &>/dev/null || $(MAKE) add-to-profile

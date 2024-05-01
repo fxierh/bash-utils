@@ -3,16 +3,10 @@
 set -euo pipefail
 
 function extract_function_names_from_file() {
-    local file="$1"
-    if [[ -z "$file" ]]; then
-        echo "File name not provided, exiting"
-        return 1
-    fi
-
     awk '
     /^[[:blank:]]*function[[:blank:]]+/ { sub(/\(\)/, "", $2); print $2 }
     /^[[:blank:]]*[a-zA-Z0-9_]+\(\)+/ { sub(/\(\)/, "", $1); print $1 }
-    ' "$file"
+    ' "$1"
 }
 
 function filter_internal_functions() {
