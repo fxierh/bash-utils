@@ -1,0 +1,52 @@
+.TH SECENV 1 "2024-05-03" "macOS X.Y" "General Commands Manual"
+
+.SH NAME
+secenv \- secures the current shell environment by setting strict security measures
+
+.SH SYNOPSIS
+.B secenv
+
+.SH DESCRIPTION
+The \fBsecenv\fR function is a shell utility designed to secure the current shell environment.
+It sets a secure PATH, clears all aliases, resets the command hash, disables core dumps, sets a strict IFS,
+and enforces a secure umask setting to control default file and directory permissions.
+
+.SH "ENVIRONMENT VARIABLES"
+.PP
+\fBPATH\fR is set to only include '/usr/local/bin', '/bin', and '/usr/bin'.
+.PP
+\fBIFS\fR (Internal Field Separator) is set to space, tab, and newline, which are the most common and secure settings.
+.PP
+\fBUMASK\fR is set to 022, resulting in permissions of 755 for new directories and 644 for new files.
+
+.SH "SECURITY ACTIONS"
+.TP
+\fBPATH\fR
+Securely sets the PATH to prevent execution of unauthorized binaries.
+.TP
+\fBunalias -a\fR
+Removes all aliases to ensure commands run as expected without alias interference.
+.TP
+\fBhash -r\fR
+Clears the command path hash to ensure the shell rechecks the PATH for command locations.
+.TP
+\fBulimit\fR
+Sets the hard limit for core dumps to 0 to prevent dumping of memory contents.
+.TP
+\fBUMASK\fR
+Ensures a secure default creation mask for files and directories.
+
+.SH USAGE
+.PP
+Simply run the function in any shell session to enhance security:
+.RS
+.nf
+secenv
+.fi
+.RE
+
+.SH "SEE ALSO"
+.BR bash (1)
+
+.SH AUTHORS
+Feilian Xie <feilian1000@gmail.com>
