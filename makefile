@@ -1,6 +1,8 @@
 CONFIG_FILE_NAME := configurations
 CONFIG_TEMPLATE_NAME := configurations.template
 
+LIST_UTILS_OPTIONS :=
+
 PROJECT_NAME := bash-utils
 PROFILE_PATH := $(HOME)/.bash_profile
 
@@ -38,4 +40,4 @@ remove-from-profile:
 
 .PHONY: list-utils
 list-utils:
-	@./hack/list-utils.sh $(CURDIR)
+	@./hack/list-utils.sh $(LIST_UTILS_OPTIONS) $(CURDIR)
