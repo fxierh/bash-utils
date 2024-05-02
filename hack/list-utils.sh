@@ -34,6 +34,7 @@ function get_function_names() {
 
         # Get function names
         functions_names="$(extract_function_names_from_file "$file")"
+
         # Filter out internal functions unless requested otherwise
         if [[ "$include_internal_functions" != true ]]; then
             functions_names=$(filter_internal_functions "$functions_names")
