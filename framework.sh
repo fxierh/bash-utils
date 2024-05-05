@@ -33,7 +33,7 @@ function hle() {
 }
 
 function err() {
-    hle -c 1 "$@"
+    hle -c 1 "$@" >&2
 }
 
 function warn() {
