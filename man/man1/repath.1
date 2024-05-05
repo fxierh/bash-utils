@@ -10,7 +10,8 @@ repath \- restores the system PATH for login and non-login shells
 .SH DESCRIPTION
 The \fBrepath\fR function is a shell utility designed to restore the system \fIPATH\fR variable
 to its original state as defined in the system and user profile files.
-It determines whether to restore the PATH as per login or non-login shell initializations based on an option.
+It determines whether to restore the PATH as per login or non-login shell initializations based on an option,
+followed by de-duplicating the PATH to avoid redundant entries.
 
 .SH OPTIONS
 .TP
@@ -36,7 +37,7 @@ repath \-n
 .RE
 
 .SH "SEE ALSO"
-.BR bash (1),
+.BR bash (1)
 
 .SH AUTHORS
 Feilian Xie <feilian1000@gmail.com>
