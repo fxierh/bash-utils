@@ -23,4 +23,7 @@ man util-name
 ----
 
 === List all available utilities
-TODO
+[source,bash]
+----
+man list-utils
+----
