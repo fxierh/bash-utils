@@ -82,3 +82,50 @@ function repath() {
     echo '$PATH restored to:'
     echo "$PATH"
 }
+
+function add2path() {
+    local add_to_beginning=false
+    local path_to_add
+
+    # Parse options
+    local OPTIND
+    while getopts "b" opt; do
+        case $opt in
+        b)
+            add_to_beginning=true
+            ;;
+        \?)
+            return 1
+            ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    # Abort if no path is specified
+    path_to_add="$1"
+    if [[ -z "$path_to_add" ]]; then
+        err "No path specified"
+        return 1
+    fi
+
+    # Abort if the path to add already exists in $PATH
+    if [[ ":$PATH:" = *":$path_to_add:"* ]]; then
+        echo "$path_to_add already exists in \$PATH, doing nothing"
+        return 0
+    fi
+
+    # Error out if the path to add is relative
+    if [[ "$path_to_add" != /* ]]; then
+        err "Should not add relative path ($path_to_add) to \$PATH"
+        return 1
+    fi
+
+    # Add to path
+    if [[ "$add_to_beginning" = "true" ]]; then
+        PATH="$path_to_add:$PATH"
+    else
+        PATH="$PATH:$path_to_add"
+    fi
+
+    succ "$path_to_add added to \$PATH"
+}

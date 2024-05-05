@@ -1,0 +1,40 @@
+.TH ADD2PATH 1 "2024-05-06" "macOS X.Y" "General Commands Manual"
+
+.SH NAME
+add2path \- adds a specified path to the system PATH variable
+
+.SH SYNOPSIS
+.B add2path
+[\-b] path
+
+.SH DESCRIPTION
+The \fBadd2path\fR function adds a specified directory to the system \fIPATH\fR variable,
+with an option to add it at the beginning or the end.
+It checks for duplicate paths and validates that the path is absolute, preventing the addition of relative paths.
+
+.SH OPTIONS
+.TP
+.B \-b
+Adds the specified path to the beginning of \fIPATH\fR. If not specified, the path is added to the end.
+
+.SH USAGE
+.PP
+To add a path to the end of the PATH:
+.RS
+.nf
+add2path /usr/local/bin
+.fi
+.RE
+.PP
+To add a path to the beginning of the PATH:
+.RS
+.nf
+add2path \-b /usr/local/bin
+.fi
+.RE
+
+.SH "SEE ALSO"
+.BR bash (1)
+
+.SH AUTHORS
+Feilian Xie <feilian1000@gmail.com>
