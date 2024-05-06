@@ -54,14 +54,20 @@ function beep() {
 }
 
 function notify() {
-    local num_notifications=3
+    local broadcast
+    local broadcast_msg
+    local num_beeps=3
 
     # Parse options
     local OPTIND
-    while getopts "n:" opt; do
+    while getopts "b:w:" opt; do
         case $opt in
-        n)
-            num_notifications=$OPTARG
+        b)
+            num_beeps="$OPTARG"
+            ;;
+        w)
+            broadcast="true"
+            broadcast_msg="$OPTARG"
             ;;
         \?)
             return 1
@@ -70,12 +76,23 @@ function notify() {
     done
     shift $((OPTIND - 1))
 
+    # Check if any command is provided
+    if [ "$#" -eq 0 ]; then
+        err "No command provided, exiting"
+        return 1
+    fi
+
     # Execute the command
     "$@"
     local exit_status=$?
 
-    # Make a number of noises
-    for i in $(seq 1 "$num_notifications"); do
+    # Broad if requested
+    if [[ "$broadcast" = "true" ]]; then
+        wall <<< "${broadcast_msg:-"Command '$*' terminated with exit status $exit_status"}"
+    fi
+
+    # Make a number of beeps
+    for i in $(seq 1 "$num_beeps"); do
         beep
     done
 
