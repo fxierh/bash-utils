@@ -1,38 +1,54 @@
 .TH NOTIFY 1 "2024-04-28" "macOS X.Y" "General Commands Manual"
 
 .SH NAME
-notify \- execute a command and notify with a number beep sounds upon completion
+notify \- execute a command and notify upon completion
 
 .SH SYNOPSIS
 .B notify
-[\-n <number_of_notifications>] \fIcommand\fR [\fIargs...\fR]
+[\-b <number_of_beeps>] [\-w <broadcast_message>] \fIcommand\fR [\fIargs...\fR]
 
 .SH DESCRIPTION
 The \fBnotify\fR function is a shell utility designed to execute a specified command
-and emit a series of beep sounds when the command finishes running.
-The number of beep sounds can be adjusted to signal the completion of the command.
+and optionally broadcast a message and emit a series of beep sounds when the command finishes running.
+The number of beep sounds and the broadcast message can be adjusted to signal the completion of the command.
 
 .SH OPTIONS
 .TP
-.B \-n <number_of_notifications>
+.B \-b <number_of_beeps>
 Specifies the number of times the beep sound should be made after the command execution.
 If this option is not provided, the default is set to 3 beeps.
 
+.TP
+.B \-w <broadcast_message>
+Specifies a message to be broadcast using the \fBwall\fR command when the command completes.
+If not provided, a default message stating the command and its exit status will be broadcast.
+
 .SH USAGE
 .PP
-To execute a command with the default number of notifications:
+To execute a command with the default number of beeps:
 .RS
 .nf
 notify ls -l
 .fi
 .RE
 .PP
-To execute a command with a specific number of notifications:
+To execute a command with a specific number of beeps:
 .RS
 .nf
-notify \-n 5 make build
+notify \-b 5 make build
 .fi
 .RE
+.PP
+To execute a command and broadcast a custom message:
+.RS
+.nf
+notify \-w "Build completed" make build
+.fi
+.RE
+
+.SH "SEE ALSO"
+.BR wall(1),
+.BR bash(1)
 
 .SH AUTHORS
 Feilian Xie <feilian1000@gmail.com>
