@@ -38,7 +38,7 @@ function err() {
 }
 
 function warn() {
-    hle -c 3 "$@"
+    hle -c 3 "$@" >&2
 }
 
 function succ() {
