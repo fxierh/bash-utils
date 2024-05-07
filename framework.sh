@@ -77,6 +77,22 @@ function succ() {
     hle -c 2 "$@"
 }
 
+function _get_input() {
+    local input
+
+    if (( "$#" > 1 )); then
+        warn "Too many arguments provided, using the first one only"
+        input="$1"
+    elif (( "$#" == 1 )); then
+        input="$1"
+    else
+        # Reads from standard input until EOF
+        input="$(cat)"
+    fi
+
+    echo "$input"
+}
+
 # https://en.wikipedia.org/wiki/ANSI_escape_code#OSC
 function wint() {
     printf '\033]0;%s\007' "$1"
@@ -160,11 +176,7 @@ function dedup() {
     fi
 
     # Get input
-    if (( "$#" == 1 )); then
-        input="$1"
-    else
-        input="$(cat)"
-    fi
+    input="$(_get_input "$@")"
 
     # Use awk to process the string and remove duplicates
     local awk_command="
@@ -186,12 +198,10 @@ BEGIN {
 
 # TODO: add Linux support
 function save2clipboard() {
+    local input
+
     # Get input
-    if (( "$#" == 1 )); then
-        input="$1"
-    else
-        input="$(cat)"
-    fi
+    input="$(_get_input "$@")"
 
     # Error out in case of empty input
     if [[ -z "$input" ]]; then
