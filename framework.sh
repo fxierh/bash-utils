@@ -1,6 +1,38 @@
 # Functions utilized by other utilities and directly by end users
 # shellcheck disable=SC2034
 
+function _prepend_callstack() {
+    # Default to skipping the current function name
+    local n_skip=1
+
+    # Parse options
+    local opt
+    local OPTIND
+    while getopts "n:" opt; do
+        case $opt in
+        n)
+            n_skip="$OPTARG"
+            ;;
+        \?)
+            return 1
+            ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    # Ensure provided value is a number
+    if [[ ! $n_skip =~ ^[[:digit:]]+$ ]]; then
+        echo "Error: Argument for -n must be a numeric value." >&2
+        return 1
+    fi
+
+    local callstack="${FUNCNAME[*]:$n_skip}"
+    if [[ -n "$callstack" ]]; then
+        echo -n "${callstack// / <- }: "
+    fi
+    echo "$@"
+}
+
 function hle() {
     local color
 
@@ -34,11 +66,11 @@ function hle() {
 }
 
 function err() {
-    hle -c 1 "$@" >&2
+    hle -c 1 "$(_prepend_callstack -n 2 "$@")" >&2
 }
 
 function warn() {
-    hle -c 3 "$@" >&2
+    hle -c 3 "$(_prepend_callstack -n 2 "$@")" >&2
 }
 
 function succ() {
