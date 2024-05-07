@@ -5,10 +5,10 @@ default_http_proxy=
 default_https_proxy=
 default_no_proxy="localhost,127.0.0.1"
 
-# ssh_agent configurations
+# ssh configurations
 default_ssh_dir="$HOME/.ssh"
 
-# openshift configurations
+# kubernetes configurations
 default_flexy_kubeconfig_url=
 default_flexy_hcp_kubeconfig_url=
 default_flexy_destroy_api=
