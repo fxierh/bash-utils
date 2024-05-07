@@ -39,7 +39,6 @@ function kget() {
 }
 
 function rekube() {
-    local opt
     local job_id
     local extend_lifetime
     local is_hcp
@@ -47,6 +46,7 @@ function rekube() {
     local target_hcp_kubeconfig_path="$default_target_kubeconfig_dir/hcp.kubeconfig"
 
     # Parse options
+    local opt
     local OPTIND
     while getopts "eh" opt; do
         case $opt in
@@ -93,6 +93,7 @@ function fdestroy() {
     local jenkins_endpoint
 
     # Parse options
+    local opt
     local OPTIND
     while getopts "d:" opt; do
         case $opt in

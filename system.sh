@@ -88,6 +88,7 @@ function add2path() {
     local path_to_add
 
     # Parse options
+    local opt
     local OPTIND
     while getopts "b" opt; do
         case $opt in

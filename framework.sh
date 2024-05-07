@@ -5,6 +5,7 @@ function hle() {
     local color
 
     # Parse options
+    local opt
     local OPTIND
     while getopts "c:" opt; do
         case $opt in
@@ -59,6 +60,7 @@ function notify() {
     local num_beeps=3
 
     # Parse options
+    local opt
     local OPTIND
     while getopts "b:w:" opt; do
         case $opt in
