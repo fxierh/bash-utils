@@ -101,3 +101,52 @@ function notify() {
     # Return the status of the command
     return $exit_status
 }
+
+function dedup() {
+    local input
+    local delimiter
+
+    # Parse options
+    local opt
+    local OPTIND
+    while getopts "d:" opt; do
+        case $opt in
+        d)
+            delimiter="$OPTARG"
+            ;;
+        \?)
+            return 1
+            ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    # Check if delimiter is empty
+    if [[ -z "$delimiter" ]]; then
+        err "Empty delimiter, exiting"
+    fi
+
+    # Get input
+    if (( "$#" == 1 )); then
+        input="$1"
+    else
+        input="$(cat)"
+    fi
+
+    # Use awk to process the string and remove duplicates
+    local awk_command="
+BEGIN {
+    FS = \"$delimiter\"
+    sep = \"\"
+}
+{
+    for (i = 1; i <= NF; i++) {
+        field=\$i
+        if (!seen[field]++) {
+            printf \"%s%s\", sep, field
+            sep=FS
+        }
+    }
+}"
+    awk "$awk_command" <<< "$input"
+}
