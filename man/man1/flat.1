@@ -5,28 +5,41 @@ flat \- flatten input text by replacing sequences of whitespace with a single sp
 
 .SH SYNOPSIS
 .B flat
-[string]
+[ options ] [string]
+
+.SH OPTIONS
+.TP
+.B \-n
+Normalize the input by removing hyphenated line breaks.
+.TP
+.B \-s
+Save the output to the clipboard.
 
 .SH DESCRIPTION
 The \fBflat\fR function processes the provided input text, either as an argument or from standard input,
 and outputs a version where all sequences of one or more whitespace characters are replaced with a single space.
+
+When used with the \fB\-n\fR option, it also removes hyphenated line breaks (e.g., "end-\nline" becomes "endline"),
+which is useful for cleaning up text that was formatted with inconvenient line breaks.
+
+The \fB\-s\fR option allows the output to be copied directly to the system clipboard,
+facilitating the use of the processed text in other applications or scripts without additional steps.
+
 This utility is useful for text normalization in scripting and data processing.
 
 .SH EXAMPLES
 .PP
-To flatten a multiline text from a pipe:
+To flatten a multiline text from a pipe and normalize it:
 .RS
 .nf
-echo "foo
-bar" | flat
+echo -e "This is an ex-\nample of a text" | flat -n
 .fi
 .RE
 .PP
-To flatten a multiline text passed as an argument:
+To flatten text passed as an argument and save it to the clipboard:
 .RS
 .nf
-flat "foo
-bar"
+flat -s -n $'This is an ex-\nample of a text'
 .fi
 .RE
 
