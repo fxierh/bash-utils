@@ -156,6 +156,7 @@ function dedup() {
     # Check if delimiter is empty
     if [[ -z "$delimiter" ]]; then
         err "Empty delimiter, exiting"
+        return 1
     fi
 
     # Get input
