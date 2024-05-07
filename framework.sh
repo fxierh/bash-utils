@@ -150,3 +150,32 @@ BEGIN {
 }"
     awk "$awk_command" <<< "$input"
 }
+
+# TODO: add Linux support
+function save2clipboard() {
+    # Get input
+    if (( "$#" == 1 )); then
+        input="$1"
+    else
+        input="$(cat)"
+    fi
+
+    # Error out in case of empty input
+    if [[ -z "$input" ]]; then
+        err "Empty input, exiting"
+        return 1
+    fi
+
+    # Save input to clipboard depending on the OS
+    case "$OSTYPE" in
+    "darwin"*)
+        pbcopy <<< "$input" || return 1
+        ;;
+    *)
+        err "save2clipboard does not support $OSTYPE"
+        return 1
+        ;;
+    esac
+
+    succ "Text saved to clipboard"
+}
