@@ -23,35 +23,6 @@ function _repath_non_login() {
     fi
 }
 
-function dedup_path() {
-    declare new_path=""
-    declare -a path_array
-    declare -A path_seen
-
-    # TODO: investigate whether "mapfile -d" is supported by bash 4.0
-    # Read $PATH into an indexed array
-    mapfile -d : -t path_array <<< "$PATH"
-
-    for path in "${path_array[@]}"; do
-        # Trim whitespaces around path
-        path=$(echo "$path" | xargs)
-
-        # Skip if path is empty or has already been processed
-        if [[ -z "$path" || "${path_seen["$path"]}" = 1 ]]; then
-            continue
-        fi
-
-        # Append to the new_path string only if not seen
-        new_path="${new_path:+$new_path:}$path"
-
-        # Mark path as seen in the associative array
-        path_seen["$path"]=1
-    done
-
-    # Update $PATH
-    PATH="$new_path"
-}
-
 function repath() {
     local login_shell=true
 
@@ -76,8 +47,9 @@ function repath() {
         _repath_non_login || return 1
     fi
 
-    # Deduplicate $PATH
-    dedup_path
+    # Deduplication
+    PATH="$(dedup -d ':' "$PATH")"
+    PROMPT_COMMAND="$(dedup -d '; ' "$PROMPT_COMMAND")"
 
     echo '$PATH restored to:'
     echo "$PATH"
