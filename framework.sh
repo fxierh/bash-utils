@@ -80,6 +80,7 @@ function succ() {
 function _get_input() {
     local input
 
+    # Get input from
     if (( "$#" > 1 )); then
         warn "Too many arguments provided, using the first one only"
         input="$1"
@@ -88,6 +89,12 @@ function _get_input() {
     else
         # Reads from standard input until EOF
         input="$(cat)"
+    fi
+
+    # Error out in case of empty input
+    if [[ -z "$input" ]]; then
+        err "Empty input, exiting"
+        return 1
     fi
 
     echo "$input"
@@ -202,12 +209,6 @@ function save2clipboard() {
 
     # Get input
     input="$(_get_input "$@")"
-
-    # Error out in case of empty input
-    if [[ -z "$input" ]]; then
-        err "Empty input, exiting"
-        return 1
-    fi
 
     # Save input to clipboard depending on the OS
     case "$OSTYPE" in
