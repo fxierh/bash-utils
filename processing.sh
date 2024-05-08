@@ -23,7 +23,7 @@ function flat() {
     shift $((OPTIND - 1))
 
     # Get input
-    input="$(_get_input "$@")"
+    input="$(_get_input -n "$@")"
 
     # Set the record separator to one or more empty lines surrounded by other whitespace,
     # effectively treating paragraphs or separated blocks as single records.

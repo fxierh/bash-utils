@@ -79,8 +79,24 @@ function succ() {
 
 function _get_input() {
     local input
+    local non_empty
 
-    # Get input from
+    # Parse options
+    local opt
+    local OPTIND
+    while getopts "n" opt; do
+        case $opt in
+        n)
+            non_empty="true"
+            ;;
+        \?)
+            return 1
+            ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    # Read input based on the number of remaining arguments
     if (( "$#" > 1 )); then
         warn "Too many arguments provided, using the first one only"
         input="$1"
@@ -91,8 +107,8 @@ function _get_input() {
         input="$(cat)"
     fi
 
-    # Error out in case of empty input
-    if [[ -z "$input" ]]; then
+    # Check for non-empty input if required
+    if [[ "$non_empty" = "true" ]] && [[ -z "$input" ]]; then
         err "Empty input, exiting"
         return 1
     fi
@@ -183,7 +199,7 @@ function dedup() {
     fi
 
     # Get input
-    input="$(_get_input "$@")"
+    input="$(_get_input -n "$@")"
 
     # Use awk to process the string and remove duplicates
     local awk_command="
@@ -208,7 +224,7 @@ function save2clipboard() {
     local input
 
     # Get input
-    input="$(_get_input "$@")"
+    input="$(_get_input -n "$@")"
 
     # Save input to clipboard depending on the OS
     case "$OSTYPE" in
