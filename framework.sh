@@ -109,7 +109,7 @@ function _get_input() {
 
     # Check for non-empty input if required
     if [[ "$non_empty" = "true" ]] && [[ -z "$input" ]]; then
-        err "Empty input, exiting"
+        err "Empty input"
         return 1
     fi
 
@@ -199,7 +199,7 @@ function dedup() {
     fi
 
     # Get input
-    input="$(_get_input -n "$@")"
+    input="$(_get_input -n "$@")" || return 1
 
     # Use awk to process the string and remove duplicates
     local awk_command="
@@ -224,7 +224,7 @@ function save2clipboard() {
     local input
 
     # Get input
-    input="$(_get_input -n "$@")"
+    input="$(_get_input -n "$@")" || return 1
 
     # Save input to clipboard depending on the OS
     case "$OSTYPE" in
