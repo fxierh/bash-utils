@@ -1,0 +1,42 @@
+.TH RELOAD 1 "2024-04-28" "macOS X.Y" "General Commands Manual"
+
+.SH NAME
+reload \- reloads environment settings for shell sessions
+
+.SH SYNOPSIS
+.B reload
+[\-n]
+
+.SH DESCRIPTION
+The \fBreload\fR function is a shell utility designed to reload the environment settings by sourcing appropriate profile scripts.
+This utility determines whether to reload the settings for login or non-login shells based on an option,
+followed by de-duplicating $PATH and $PROMPT_COMMAND to avoid redundant entries.
+
+.SH OPTIONS
+.TP
+.B \-n
+Reloads the environment settings according to non-login shell initialization, typically using \fI~/.bashrc\fR.
+If not specified, the settings are reloaded based on login shell initialization using \fI/etc/profile\fR
+and the first available user profile among \fI~/.bash_profile\fR, \fI~/.bash_login\fR, and \fI~/.profile\fR.
+
+.SH USAGE
+.PP
+To reload the environment for a login shell (default):
+.RS
+.nf
+reload
+.fi
+.RE
+.PP
+To reload the environment for a non-login shell:
+.RS
+.nf
+reload \-n
+.fi
+.RE
+
+.SH "SEE ALSO"
+.BR bash (1)
+
+.SH AUTHORS
+Feilian Xie <feilian1000@gmail.com>
