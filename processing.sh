@@ -1,3 +1,5 @@
+# TODO: support capitalize first letter
+# TODO: support interactive mode using coproc
 function flat() {
     local input
     local normalize
@@ -30,7 +32,7 @@ function flat() {
     result="$(awk -v RS='([[:blank:]]*\n){2,}[[:blank:]]*' '$1=$1' <<< "$input")" || return 1
 
     # Normalize line breaks if requested
-    if [[ "$normalize" = "true" ]]; then
+    if [[ "$normalize" == "true" ]]; then
         result="${result//- /}"
     fi
 

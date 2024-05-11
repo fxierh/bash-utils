@@ -4,7 +4,7 @@ function placeholder() {
 
     # Ensure that the input is a non-negative integer
     if [[ ! "$input" =~ ^[[:digit:]]+$ ]]; then
-        err "The input must be a non-negative integer"
+        _err "The input must be a non-negative integer"
         return 1
     fi
 

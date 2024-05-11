@@ -33,7 +33,7 @@ function _prepend_callstack() {
     echo "$@"
 }
 
-function hle() {
+function _hle() {
     local color
 
     # Parse options
@@ -65,16 +65,16 @@ function hle() {
     echo "$@"
 }
 
-function err() {
-    hle -c 1 "$(_prepend_callstack -n 2 "$@")" >&2
+function _err() {
+    _hle -c 1 "$(_prepend_callstack -n 2 "$@")" >&2
 }
 
-function warn() {
-    hle -c 3 "$(_prepend_callstack -n 2 "$@")" >&2
+function _warn() {
+    _hle -c 3 "$(_prepend_callstack -n 2 "$@")" >&2
 }
 
-function succ() {
-    hle -c 2 "$@"
+function _succ() {
+    _hle -c 2 "$@"
 }
 
 function _get_input() {
@@ -98,7 +98,7 @@ function _get_input() {
 
     # Read input based on the number of remaining arguments
     if (( "$#" > 1 )); then
-        warn "Too many arguments provided, using the first one only"
+        _warn "Too many arguments provided, using the first one only"
         input="$1"
     elif (( "$#" == 1 )); then
         input="$1"
@@ -108,8 +108,8 @@ function _get_input() {
     fi
 
     # Check for non-empty input if required
-    if [[ "$non_empty" = "true" ]] && [[ -z "$input" ]]; then
-        err "Empty input"
+    if [[ "$non_empty" == "true" ]] && [[ -z "$input" ]]; then
+        _err "Empty input"
         return 1
     fi
 
@@ -121,7 +121,7 @@ function wint() {
     printf '\033]0;%s\007' "$1"
 }
 
-function beep() {
+function _beep() {
     echo -ne "\a"
 }
 
@@ -150,8 +150,8 @@ function notify() {
     shift $((OPTIND - 1))
 
     # Check if any command is provided
-    if [ "$#" -eq 0 ]; then
-        err "No command provided, exiting"
+    if (( "$#" == 0 )); then
+        _err "No command provided, exiting"
         return 1
     fi
 
@@ -160,13 +160,13 @@ function notify() {
     local exit_status=$?
 
     # Broad if requested
-    if [[ "$broadcast" = "true" ]]; then
+    if [[ "$broadcast" == "true" ]]; then
         wall <<< "${broadcast_msg:-"Command '$*' terminated with exit status $exit_status"}"
     fi
 
     # Make a number of beeps
     for i in $(seq 1 "$num_beeps"); do
-        beep
+        _beep
     done
 
     # Return the status of the command
@@ -194,7 +194,7 @@ function dedup() {
 
     # Check if delimiter is empty
     if [[ -z "$delimiter" ]]; then
-        err "Empty delimiter, exiting"
+        _err "Empty delimiter, exiting"
         return 1
     fi
 
@@ -232,10 +232,10 @@ function save2clipboard() {
         pbcopy <<< "$input" || return 1
         ;;
     *)
-        err "save2clipboard does not support $OSTYPE"
+        _err "save2clipboard does not support $OSTYPE"
         return 1
         ;;
     esac
 
-    succ "Text saved to clipboard"
+    _succ "Text saved to clipboard"
 }

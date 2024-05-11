@@ -24,7 +24,7 @@ function fssh() {
         echo "Removing $hostname from known_hosts..."
         ssh-keygen -R "$hostname"
     else
-        warn "Hostname not found in arguments. Proceeding without modifying known_hosts."
+        _warn "Hostname not found in arguments. Proceeding without modifying known_hosts."
     fi
 
     # Execute ssh with the original arguments
