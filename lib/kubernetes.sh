@@ -2,24 +2,6 @@
 
 # TODO: most functions here should read from stdin as well
 
-function extexp() {
-    local job_id="$1"
-    if [[ -z "$job_id" ]]; then
-        _err "No flexy-install ID provided. Exiting."
-        return 1
-    fi
-
-    # Extend the cluster expiration by calling Jenkins API
-    if ! curl --insecure --silent "$default_ext_cluster_exp_api" \
-        --user "$default_jenkins_uname:$default_jenkins_token" \
-        --data "FLEXY_INSTALL_ID=$job_id" \
-        --data "EXPIRES_IN_HOURS=35"; then
-        _err "Failed to extend cluster expiration."
-        return 1
-    fi
-    _succ "Cluster expiration extended successfully."
-}
-
 function _kget() {
     local kubeconfig_url="$1"
     local target_kubeconfig_path="$2"
@@ -38,6 +20,24 @@ function _kget() {
         return 1
     fi
     _succ "Kubeconfig downloaded successfully."
+}
+
+function extexp() {
+    local job_id="$1"
+    if [[ -z "$job_id" ]]; then
+        _err "No flexy-install ID provided. Exiting."
+        return 1
+    fi
+
+    # Extend the cluster expiration by calling Jenkins API
+    if ! curl --insecure --silent "$default_ext_cluster_exp_api" \
+        --user "$default_jenkins_uname:$default_jenkins_token" \
+        --data "FLEXY_INSTALL_ID=$job_id" \
+        --data "EXPIRES_IN_HOURS=35"; then
+        _err "Failed to extend cluster expiration."
+        return 1
+    fi
+    _succ "Cluster expiration extended successfully."
 }
 
 function rekube() {
