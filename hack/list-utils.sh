@@ -18,7 +18,7 @@ function extract_function_names_from_file() {
 }
 
 function filter_internal_functions() {
-    grep -v '^_' <<< "$1"
+    grep -v '^_' <<< "$1" || :
 }
 
 function get_function_names() {
