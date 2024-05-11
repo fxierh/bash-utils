@@ -30,7 +30,7 @@ done < <(find "$project_dir" ! -path "*/hack/*" -name '*.sh' ! -name 'bootstrap.
 # Export all utilities
 while read -r funcname; do
     export -f "$funcname"
-done < <("$project_dir/hack/list-utils.sh" -a .)
+done < <("$project_dir/hack/list-utils.sh" -a "$project_dir")
 
 # Make the custom man pages discoverable
 export PATH="$PATH:$project_dir"
