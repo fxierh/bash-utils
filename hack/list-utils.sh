@@ -29,7 +29,7 @@ function get_function_names() {
     while read -r -d '' file; do
         # Print file name if requested
         if [[ "$print_file_names" == true ]]; then
-            echo ">>>>> $(basename "$file")"
+            echo ">>>>> $file"
         fi
 
         # Get function names
@@ -44,7 +44,7 @@ function get_function_names() {
         if [[ -n "$functions_names" ]]; then
             echo "$functions_names"
         fi
-    done < <(find "$directory" -depth 1 -name '*.sh' -print0)
+    done < <(find "$directory" ! -path "*/hack/*" -name '*.sh' -print0)
 }
 
 # Default values

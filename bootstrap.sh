@@ -1,10 +1,16 @@
-# Entry point for the bash-utils library.
+# Entry point for the bash-utils library. Idempotent.
 #
 # For login shells: source this script in your .bash_profile
 # For non-login shells: source this script at the start of your scripts
 #
 # shellcheck disable=SC2163
 # shellcheck source=/dev/null
+
+# Check if the script has already been sourced
+if [[ -n "$_BASH_UTILS_SOURCED" ]]; then
+    echo "The bootstrapping script has already been sourced, doing nothing. "
+    return 0
+fi
 
 # Get project directory
 project_dir="$(dirname "${BASH_SOURCE[0]}")"
@@ -19,7 +25,7 @@ source "$project_dir/configurations"
 # Source all other utility scripts
 while IFS= read -r -d '' file; do
     source "$file"
-done < <(find "$project_dir" -depth 1 -name '*.sh' ! -name 'bootstrap.sh' -print0)
+done < <(find "$project_dir" ! -path "*/hack/*" -name '*.sh' ! -name 'bootstrap.sh' -print0)
 
 # Export all utilities
 while read -r funcname; do
@@ -28,3 +34,6 @@ done < <("$project_dir/hack/list-utils.sh" -a .)
 
 # Make the custom man pages discoverable
 export PATH="$PATH:$project_dir"
+
+# Mark the script as sourced
+export _BASH_UTILS_SOURCED=1
