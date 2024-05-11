@@ -1,5 +1,4 @@
 # Functions utilized by other utilities and directly by end users
-# shellcheck disable=SC2034
 
 function _prepend_callstack() {
     # Default to skipping the current function name
@@ -116,111 +115,8 @@ function _get_input() {
     echo "$input"
 }
 
-# https://en.wikipedia.org/wiki/ANSI_escape_code#OSC
-function wint() {
-    printf '\033]0;%s\007' "$1"
-}
-
-function _beep() {
-    echo -ne "\a"
-}
-
-function notify() {
-    local broadcast
-    local broadcast_msg
-    local num_beeps=3
-
-    # Parse options
-    local opt
-    local OPTIND
-    while getopts "b:w:" opt; do
-        case $opt in
-        b)
-            num_beeps="$OPTARG"
-            ;;
-        w)
-            broadcast="true"
-            broadcast_msg="$OPTARG"
-            ;;
-        \?)
-            return 1
-            ;;
-        esac
-    done
-    shift $((OPTIND - 1))
-
-    # Check if any command is provided
-    if (( "$#" == 0 )); then
-        _err "No command provided, exiting"
-        return 1
-    fi
-
-    # Execute the command
-    "$@"
-    local exit_status=$?
-
-    # Broad if requested
-    if [[ "$broadcast" == "true" ]]; then
-        wall <<< "${broadcast_msg:-"Command '$*' terminated with exit status $exit_status"}"
-    fi
-
-    # Make a number of beeps
-    for i in $(seq 1 "$num_beeps"); do
-        _beep
-    done
-
-    # Return the status of the command
-    return $exit_status
-}
-
-function dedup() {
-    local input
-    local delimiter
-
-    # Parse options
-    local opt
-    local OPTIND
-    while getopts "d:" opt; do
-        case $opt in
-        d)
-            delimiter="$OPTARG"
-            ;;
-        \?)
-            return 1
-            ;;
-        esac
-    done
-    shift $((OPTIND - 1))
-
-    # Check if delimiter is empty
-    if [[ -z "$delimiter" ]]; then
-        _err "Empty delimiter, exiting"
-        return 1
-    fi
-
-    # Get input
-    input="$(_get_input -n "$@")" || return 1
-
-    # Use awk to process the string and remove duplicates
-    local awk_command="
-BEGIN {
-    FS = \"$delimiter\"
-    sep = \"\"
-}
-{
-    for (i = 1; i <= NF; i++) {
-        field=\$i
-        if (!seen[field]++) {
-            printf \"%s%s\", sep, field
-            sep=FS
-        }
-    }
-}"
-    awk "$awk_command" <<< "$input"
-}
-
 # TODO: add Linux support
-function save2clipboard() {
+function _save2clipboard() {
     local input
 
     # Get input
