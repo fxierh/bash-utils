@@ -41,3 +41,7 @@ remove-from-profile:
 .PHONY: list-utils
 list-utils:
 	@./hack/list-utils.sh $(LIST_UTILS_OPTIONS) $(CURDIR)
+
+.PHONY: count-loc
+count-loc:
+	@find . -name '*.sh' | xargs wc -l
