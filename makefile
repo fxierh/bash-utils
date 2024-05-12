@@ -42,7 +42,6 @@ add-to-profile:
 .PHONY: uninstall
 all: remove-from-profile
 
-# TODO
 .PHONY: remove-from-profile
 remove-from-profile:
 	@./hack/profile-manager.sh remove '$(PROJECT_NAME_COMMENT)' '$(SOURCE_BOOTSTRAP_COMMAND)'
