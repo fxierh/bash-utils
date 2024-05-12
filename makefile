@@ -7,9 +7,11 @@ CONFIG_TEMPLATE_NAME := configurations.template
 LIST_UTILS_OPTIONS :=
 
 PROJECT_NAME := bash-utils
+PROJECT_NAME_COMMENT := \# $(PROJECT_NAME)
 PROFILE_PATH := $(HOME)/.bash_profile
 
 SHELL := /usr/bin/env bash
+SOURCE_BOOTSTRAP_COMMAND := source $(CURDIR)/bootstrap.sh
 
 .PHONY: install
 install: ensure-configuration ensure-profile
@@ -35,10 +37,7 @@ ensure-profile:
 
 .PHONY: add-to-profile
 add-to-profile:
-	echo >> "$(PROFILE_PATH)"
-	echo '# $(PROJECT_NAME)' >> "$(PROFILE_PATH)"
-	echo 'source "$(CURDIR)/bootstrap.sh"' >> "$(PROFILE_PATH)"
-	echo >> "$(PROFILE_PATH)"
+	@./hack/profile-manager.sh add '$(PROJECT_NAME_COMMENT)' '$(SOURCE_BOOTSTRAP_COMMAND)'
 
 .PHONY: uninstall
 all: remove-from-profile
@@ -46,6 +45,7 @@ all: remove-from-profile
 # TODO
 .PHONY: remove-from-profile
 remove-from-profile:
+	@./hack/profile-manager.sh remove '$(PROJECT_NAME_COMMENT)' '$(SOURCE_BOOTSTRAP_COMMAND)'
 
 .PHONY: list-utils
 list-utils:
