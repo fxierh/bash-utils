@@ -1,3 +1,6 @@
+# This Makefile should be run from the project's root directory.
+# To run from another directory, use: make -C /path/to/project-root target_name
+
 CONFIG_FILE_NAME := configurations
 CONFIG_TEMPLATE_NAME := configurations.template
 
@@ -8,8 +11,8 @@ PROFILE_PATH := $(HOME)/.bash_profile
 
 SHELL := /usr/bin/env bash
 
-.PHONY: all
-all: ensure-configuration ensure-profile
+.PHONY: install
+install: ensure-configuration ensure-profile
 
 .PHONY: ensure-configuration
 ensure-configuration:
@@ -17,6 +20,9 @@ ensure-configuration:
 		echo "Configuration file not found, copying $(CONFIG_TEMPLATE_NAME) to $(CONFIG_FILE_NAME)"; \
 		cp "$(CONFIG_TEMPLATE_NAME)" "$(CONFIG_FILE_NAME)"; \
 		echo "You can now customize $(CONFIG_FILE_NAME)"; \
+	else \
+	    echo "Configuration file found, checking if an update is needed"; \
+	    $(MAKE) update-configuration; \
 	fi
 
 # TODO
@@ -33,6 +39,9 @@ add-to-profile:
 	echo '# $(PROJECT_NAME)' >> "$(PROFILE_PATH)"
 	echo 'source "$(CURDIR)/bootstrap.sh"' >> "$(PROFILE_PATH)"
 	echo >> "$(PROFILE_PATH)"
+
+.PHONY: uninstall
+all: remove-from-profile
 
 # TODO
 .PHONY: remove-from-profile
