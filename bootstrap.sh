@@ -22,12 +22,13 @@ fi
 # Apply the configurations
 source "$project_dir/configurations"
 
-# Source all other utility scripts
+# Source all function scripts
+source "$project_dir/framework.sh"
 while IFS= read -r -d '' file; do
     source "$file"
-done < <(find "$project_dir" ! -path "*/hack/*" -name '*.sh' ! -name 'bootstrap.sh' -print0)
+done < <(find "$project_dir/lib" -name '*.sh' -print0)
 
-# Export all utilities
+# Export all functions
 while read -r funcname; do
     export -f "$funcname"
 done < <("$project_dir/hack/list-utils.sh" -a "$project_dir")
