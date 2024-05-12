@@ -64,12 +64,21 @@ function _hle() {
     echo "$@"
 }
 
+function _fatal() {
+    _hle -c 1 "$(_prepend_callstack -n 2 "$@")" >&2
+    exit 1
+}
+
 function _err() {
     _hle -c 1 "$(_prepend_callstack -n 2 "$@")" >&2
 }
 
 function _warn() {
     _hle -c 3 "$(_prepend_callstack -n 2 "$@")" >&2
+}
+
+function _info() {
+    _hle -c 6 "$@"
 }
 
 function _succ() {
