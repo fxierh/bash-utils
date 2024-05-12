@@ -42,6 +42,13 @@ remove-from-profile:
 list-utils:
 	@./hack/list-utils.sh $(LIST_UTILS_OPTIONS) $(CURDIR)
 
+.PHONY: update
+update: ensure-manpages count-loc
+
+.PHONY: ensure-manpages
+ensure-manpages:
+	@./hack/ensure-manpages.sh $(CURDIR)
+
 .PHONY: count-loc
 count-loc:
 	@find . -name '*.sh' | xargs wc -l
