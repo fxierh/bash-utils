@@ -3,7 +3,7 @@
 set -euo pipefail
 
 function usage() {
-    echo "Usage: ${0##*/} [-a] [-f] directory
+    echo "Usage: ${0##*/} [-a] [-f] project-root-directory
 
 Options:
 -a: include internal functions (those starting with an underscore)
@@ -26,7 +26,7 @@ function get_function_names() {
     local file
     local functions_names
 
-    while read -r -d '' file; do
+    while IFS= read -r -d '' file; do
         # Print file name if requested
         if [[ "$print_file_names" == true ]]; then
             echo ">>>>> $file"
@@ -44,7 +44,7 @@ function get_function_names() {
         if [[ -n "$functions_names" ]]; then
             echo "$functions_names"
         fi
-    done < <(find "$directory" ! -path "*/hack/*" -name '*.sh' -print0)
+    done < <(find "$directory/lib" -name '*.sh' -print0; echo -ne "$directory/framework.sh\0")
 }
 
 # Default values
