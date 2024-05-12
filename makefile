@@ -59,4 +59,5 @@ ensure-manpages:
 
 .PHONY: count-loc
 count-loc:
+	@echo "LoC count: "
 	@find . -name '*.sh' | xargs wc -l
