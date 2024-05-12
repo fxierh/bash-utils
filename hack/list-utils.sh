@@ -23,8 +23,8 @@ function filter_internal_functions() {
 
 function get_function_names() {
     local directory="$1"
-    local file
-    local functions_names
+    local file=""
+    local functions_names=""
 
     while IFS= read -r -d '' file; do
         # Print file name if requested

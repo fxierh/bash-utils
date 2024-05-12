@@ -5,8 +5,8 @@ function _prepend_callstack() {
     local n_skip=1
 
     # Parse options
-    local opt
-    local OPTIND
+    local opt=""
+    local OPTIND=""
     while getopts "n:" opt; do
         case $opt in
         n)
@@ -33,11 +33,11 @@ function _prepend_callstack() {
 }
 
 function _hle() {
-    local color
+    local color=""
 
     # Parse options
-    local opt
-    local OPTIND
+    local opt=""
+    local OPTIND=""
     while getopts "c:" opt; do
         case $opt in
         c)
@@ -77,12 +77,12 @@ function _succ() {
 }
 
 function _get_input() {
-    local input
-    local non_empty
+    local input=""
+    local non_empty=""
 
     # Parse options
-    local opt
-    local OPTIND
+    local opt=""
+    local OPTIND=""
     while getopts "n" opt; do
         case $opt in
         n)
@@ -117,7 +117,7 @@ function _get_input() {
 
 # TODO: add Linux support
 function _save2clipboard() {
-    local input
+    local input=""
 
     # Get input
     input="$(_get_input -n "$@")" || return 1

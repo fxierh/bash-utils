@@ -14,7 +14,7 @@ function backup_profile() {
 
 # Add configuration to the profile
 function add_to_profile() {
-    local line
+    local line=""
     echo >> "$HOME/.bash_profile"
     for line in "$@"; do
         echo "$line" >> "$HOME/.bash_profile"
@@ -25,8 +25,8 @@ function add_to_profile() {
 
 # Remove configuration from the profile
 function remove_from_profile() {
-    local line
-    local updated_profile_content
+    local line=""
+    local updated_profile_content=""
     updated_profile_content="$(grep -Fxv -f <(printf "%s\n" "$@") "$HOME/.bash_profile")"
     echo "$updated_profile_content" > "$HOME/.bash_profile"
     echo "Configuration removed from .bash_profile"

@@ -41,15 +41,15 @@ function extexp() {
 }
 
 function rekube() {
-    local job_id
-    local extend_lifetime
-    local is_hcp
+    local job_id=""
+    local extend_lifetime=""
+    local is_hcp=""
     local target_kubeconfig_path="$default_target_kubeconfig_dir/kubeconfig"
     local target_hcp_kubeconfig_path="$default_target_kubeconfig_dir/hcp.kubeconfig"
 
     # Parse options
-    local opt
-    local OPTIND
+    local opt=""
+    local OPTIND=""
     while getopts "eh" opt; do
         case $opt in
         e)
@@ -91,12 +91,12 @@ function rekube() {
 }
 
 function fdestroy() {
-    local delay_secs
-    local jenkins_endpoint
+    local delay_secs=""
+    local jenkins_endpoint=""
 
     # Parse options
-    local opt
-    local OPTIND
+    local opt=""
+    local OPTIND=""
     while getopts "d:" opt; do
         case $opt in
         d)

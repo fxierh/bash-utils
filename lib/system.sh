@@ -8,7 +8,7 @@ function _reload_login() {
     source /etc/profile || { _err "Failed to source /etc/profile"; return 1; }
 
     # Source the first available user profile
-    local profile
+    local profile=""
     for profile in "$HOME/.bash_profile" "$HOME/.bash_login" "$HOME/.profile"; do
         if [[ -f "$profile" ]]; then
             source "$profile" || { _err "Failed to source $profile"; return 1; }
@@ -28,8 +28,8 @@ function reload() {
     local login_shell=true
 
     # Parse options
-    local opt
-    local OPTIND
+    local opt=""
+    local OPTIND=""
     while getopts "n" opt; do
         case $opt in
         n)
@@ -58,11 +58,11 @@ function reload() {
 
 function add2path() {
     local add_to_beginning=false
-    local path_to_add
+    local path_to_add=""
 
     # Parse options
-    local opt
-    local OPTIND
+    local opt=""
+    local OPTIND=""
     while getopts "b" opt; do
         case $opt in
         b)

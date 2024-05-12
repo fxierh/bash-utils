@@ -1,14 +1,14 @@
 # TODO: support capitalize first letter
 # TODO: support interactive mode using coproc
 function flat() {
-    local input
-    local normalize
-    local result
-    local save_to_clipboard
+    local input=""
+    local normalize=""
+    local result=""
+    local save_to_clipboard=""
 
     # Parse options
-    local opt
-    local OPTIND
+    local opt=""
+    local OPTIND=""
     while getopts "ns" opt; do
         case $opt in
         n)
@@ -46,12 +46,12 @@ function flat() {
 }
 
 function dedup() {
-    local input
-    local delimiter
+    local input=""
+    local delimiter=""
 
     # Parse options
-    local opt
-    local OPTIND
+    local opt=""
+    local OPTIND=""
     while getopts "d:" opt; do
         case $opt in
         d)

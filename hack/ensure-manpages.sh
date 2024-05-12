@@ -15,8 +15,8 @@ function get_cmds() {
 
 # Populate associative array with commands that have a manpage
 function get_cmds_with_manpage() {
-    local cmd
-    local file
+    local cmd=""
+    local file=""
     while IFS= read -r -d '' file; do
         # Extract the command name by removing directory path and any numeric suffix
         cmd="$(basename "$file" | sed 's/\.[0-9]$//')"
@@ -28,7 +28,7 @@ function get_cmds_with_manpage() {
 
 # Determine which commands lack a manpage
 function get_cmds_without_manpage() {
-    local cmd
+    local cmd=""
     for cmd in "${cmds[@]}"; do
         if [[ ! -v cmds_with_manpage["$cmd"] ]]; then
             cmds_without_manpage+=("$cmd")

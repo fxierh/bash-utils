@@ -5,13 +5,13 @@ function _beep() {
 }
 
 function notify() {
-    local broadcast
-    local broadcast_msg
+    local broadcast=""
+    local broadcast_msg=""
     local num_beeps=3
 
     # Parse options
-    local opt
-    local OPTIND
+    local opt=""
+    local OPTIND=""
     while getopts "b:w:" opt; do
         case $opt in
         b)

@@ -10,7 +10,7 @@ function ssh_agent_init() {
 }
 
 function fssh() {
-    local hostname
+    local hostname=""
     for arg in "$@"; do
         if [[ "$arg" == *@* ]]; then
             # Extract the hostname part after @
