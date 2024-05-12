@@ -1,5 +1,4 @@
 # TODO: support capitalize first letter
-# TODO: support interactive mode using coproc
 function flat() {
     local input=""
     local normalize=""
