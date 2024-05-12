@@ -2,7 +2,7 @@
 
 function ssh_agent_init() {
     eval "$(ssh-agent -s)"
-    while read -r -d '' file; do
+    while IFS= read -r -d '' file; do
         if grep -q "PRIVATE KEY" "$file"; then
             ssh-add "$file"
         fi
