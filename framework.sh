@@ -81,8 +81,10 @@ function _info() {
     _hle -c 6 "$@"
 }
 
-function _succ() {
-    _hle -c 2 "$@"
+function _debug() {
+    if [[ -n "$_BASH_UTILS_DEBUG" ]]; then
+        echo "$@"
+    fi
 }
 
 function _get_input() {
@@ -142,5 +144,5 @@ function _save2clipboard() {
         ;;
     esac
 
-    _succ "Text saved to clipboard"
+    _info "Text saved to clipboard"
 }

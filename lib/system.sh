@@ -53,7 +53,7 @@ function reload() {
     PATH="$(dedup -d ':' "$PATH")"
     PROMPT_COMMAND="$(dedup -d '; ' "$PROMPT_COMMAND")"
 
-    _succ "Terminal session reloaded"
+    _info "Terminal session reloaded"
 }
 
 function add2path() {
@@ -101,5 +101,5 @@ function add2path() {
         PATH="$PATH:$path_to_add"
     fi
 
-    _succ "$path_to_add added to \$PATH"
+    _info "$path_to_add added to \$PATH"
 }

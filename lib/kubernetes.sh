@@ -19,7 +19,7 @@ function _kget() {
         _err "Failed to download kubeconfig from $kubeconfig_url."
         return 1
     fi
-    _succ "Kubeconfig downloaded successfully."
+    _info "Kubeconfig downloaded successfully."
 }
 
 function extexp() {
@@ -37,7 +37,7 @@ function extexp() {
         _err "Failed to extend cluster expiration."
         return 1
     fi
-    _succ "Cluster expiration extended successfully."
+    _info "Cluster expiration extended successfully."
 }
 
 function rekube() {
@@ -85,7 +85,7 @@ function rekube() {
         fi
     fi
 
-    _succ "Rekubed to $target_kubeconfig_path !"
+    _info "Rekubed to $target_kubeconfig_path !"
     export KUBECONFIG="$target_kubeconfig_path"
     oc version
 }
@@ -129,7 +129,7 @@ function fdestroy() {
         _err "Failed to invoke flexy-destroy."
         return 1
     fi
-    _succ "flexy-destroy invoked successfully."
+    _info "flexy-destroy invoked successfully."
 }
 
 function hcp() {
