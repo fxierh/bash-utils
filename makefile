@@ -10,11 +10,12 @@ PROJECT_NAME := bash-utils
 PROJECT_NAME_COMMENT := \# $(PROJECT_NAME)
 PROFILE_PATH := $(HOME)/.bash_profile
 
+SCRIPT_INSTALL_DIR := /usr/local/bin
 SHELL := /usr/bin/env bash
 SOURCE_BOOTSTRAP_COMMAND := source $(CURDIR)/bootstrap.sh
 
 .PHONY: install
-install: ensure-configuration ensure-profile
+install: ensure-configuration ensure-profile install-scripts
 
 .PHONY: ensure-configuration
 ensure-configuration:
@@ -39,12 +40,20 @@ ensure-profile:
 add-to-profile:
 	@./hack/profile-manager.sh add '$(PROJECT_NAME_COMMENT)' '$(SOURCE_BOOTSTRAP_COMMAND)'
 
+.PHONY: install-scripts
+install-scripts:
+	@./hack/script-manager.sh install $(SCRIPT_INSTALL_DIR)
+
 .PHONY: uninstall
-uninstall: remove-from-profile
+uninstall: remove-from-profile uninstall-scripts
 
 .PHONY: remove-from-profile
 remove-from-profile:
 	@./hack/profile-manager.sh remove '$(PROJECT_NAME_COMMENT)' '$(SOURCE_BOOTSTRAP_COMMAND)'
+
+.PHONY: uninstall-scripts
+uninstall-scripts:
+	@./hack/script-manager.sh uninstall $(SCRIPT_INSTALL_DIR)
 
 .PHONY: list-utils
 list-utils:
