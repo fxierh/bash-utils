@@ -3,7 +3,7 @@
 set -euo pipefail
 
 function usage() {
-    echo "Usage: ${0##*/} [-a] [-f] project-root-directory
+    echo "Usage: ${0##*/} [-a] [-f]
 
 Options:
 -a: include internal functions (those starting with an underscore)
@@ -22,7 +22,6 @@ function filter_internal_functions() {
 }
 
 function get_function_names() {
-    local directory="$1"
     local file=""
     local functions_names=""
 
@@ -44,7 +43,7 @@ function get_function_names() {
         if [[ -n "$functions_names" ]]; then
             echo "$functions_names"
         fi
-    done < <(find "$directory/lib" -name '*.sh' -print0; echo -ne "$directory/framework.sh\0")
+    done < <(find "$project_root_dir/lib" -name '*.sh' -print0; echo -ne "$project_root_dir/framework.sh\0")
 }
 
 # Default values
@@ -69,4 +68,5 @@ done
 shift $((OPTIND - 1))
 
 # Main
-get_function_names "$1"
+project_root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+get_function_names

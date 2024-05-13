@@ -4,10 +4,6 @@
 
 set -euo pipefail
 
-function usage() {
-    echo "Usage: ${0##*/} project-root-directory"
-}
-
 # Read commands from list-utils.sh into an indexed array
 function get_cmds() {
     readarray -t cmds <<< "$("${project_root_dir}/hack/list-utils.sh" "${project_root_dir}")"
@@ -37,10 +33,9 @@ function get_cmds_without_manpage() {
 }
 
 # Main
-project_root_dir="$1"
+project_root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 if [[ -z "$project_root_dir" ]]; then
-    echo "Error: No project root directory provided." >&2
-    usage
+    echo "Error: Empty project root directory found" >&2
     exit 1
 fi
 

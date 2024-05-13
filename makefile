@@ -48,14 +48,14 @@ remove-from-profile:
 
 .PHONY: list-utils
 list-utils:
-	@./hack/list-utils.sh $(LIST_UTILS_OPTIONS) $(CURDIR)
+	@./hack/list-utils.sh $(LIST_UTILS_OPTIONS)
 
 .PHONY: update
 update: ensure-manpages count-loc
 
 .PHONY: ensure-manpages
 ensure-manpages:
-	@./hack/ensure-manpages.sh $(CURDIR)
+	@./hack/ensure-manpages.sh
 
 .PHONY: count-loc
 count-loc:
